@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع دفعة الشرطة السودانية</title>
+    <style>
+        /* تصميم عام */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: linear-gradient(to right, #001f3f, #0073ff);
+            color: white;
+        }
+
+        /* شريط التنقل */
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        /* قسم المقدمة */
+        .header {
+            padding: 100px 20px;
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 60px;
+        }
+
+        /* نموذج الإدخال */
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #0073ff;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #00c8ff;
+        }
+
+        /* قسم البحث */
+        .search-container {
+            margin-top: 20px;
+        }
+
+        /* قائمة الأعضاء */
+        .members {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .state-group {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        /* ألوان الولايات */
+        .khartoum { background: #0073ff; }
+        .jazira { background: #ff5733; }
+        .darfur { background: #33ff57; }
+
+        .member {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#">الرئيسية</a>
+        <a href="#">عن الدفعة</a>
+        <a href="#">اتصل بنا</a>
+    </nav>
+
+    <div class="header">
+        <h1>دفعة الشرطة السودانية</h1>
+        <p>مرحبًا بكم في موقع الدفعة 17 فنية & 21 فنية</p>
+    </div>
+
+    <div class="form-container">
+        <h2>إضافة عضو جديد</h2>
+        <input type="text" id="name" placeholder="الاسم" required>
+        <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+        <select id="state">
+            <option value="الخرطوم">الخرطوم</option>
+            <option value="الجزيرة">الجزيرة</option>
+            <option value="دارفور">دارفور</option>
+        </select>
+        <button onclick="addMember()">إضافة</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search" placeholder="ابحث عن عضو..." onkeyup="searchMember()">
+    </div>
+
+    <div class="members">
+        <h2>قائمة الأعضاء</h2>
+        <div id="khartoumGroup" class="state-group khartoum"><h3>الخرطوم</h3></div>
+        <div id="jaziraGroup" class="state-group jazira"><h3>الجزيرة</h3></div>
+        <div id="darfurGroup" class="state-group darfur"><h3>دارفور</h3></div>
+    </div>
+
+    <script>
+        function addMember() {
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+            let state = document.getElementById("state").value;
+
+            if (name === "" || phone === "") {
+                alert("يرجى إدخال جميع البيانات!");
+                return;
+            }
+
+            let memberDiv = document.createElement("div");
+            memberDiv.classList.add("member");
+            memberDiv.innerHTML = `<strong>${name}</strong> - ${phone}`;
+
+            if (state === "الخرطوم") {
+                document.getElementById("khartoumGroup").appendChild(memberDiv);
+            } else if (state === "الجزيرة") {
+                document.getElementById("jaziraGroup").appendChild(memberDiv);
+            } else if (state === "دارفور") {
+                document.getElementById("darfurGroup").appendChild(memberDiv);
+            }
+
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+        }
+
+        function searchMember() {
+            let searchValue = document.getElementById("search").value.toLowerCase();
+            let members = document.getElementsByClassName("member");
+
+            for (let i = 0; i < members.length; i++) {
+                let memberText = members[i].textContent.toLowerCase();
+                if (memberText.includes(searchValue)) {
+                    members[i].style.display = "block";
+                } else {
+                    members[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
